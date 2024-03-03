@@ -72,6 +72,9 @@ class arduBridgeSPI():
         return reply
 
 class arduBridgeGPIO():
+    OUTPUT = 0 #< To set the pin to digital output mode
+    INPUT = 1  #< To set the pin to digital input mode
+
     def __init__(self, gpio):
         self.gpio = gpio
 
@@ -82,8 +85,12 @@ class arduBridgeGPIO():
     def digitalRead(self, pin):
         return self.gpio.input(pin)
     
-    def pinMode(self, pin, direction):
-        if direction == 1:
+    def setMode(self, pin, mode, init=0):
+        self.pinMode(pin, mode, init)
+
+    def pinMode(self, pin, mode, init=0):
+        if mode == self.OUTPUT:
+            self.digitalWrite(pin, init):
             self.gpio.setup(pin, self.gpio.OUT)
         else:
             self.gpio.setup(pin, self.gpio.IN)
